@@ -84,6 +84,12 @@
     }
     @keyframes pan { to { background-position: 160px 80px; } }
 
+    /* Modals */
+    .modal.flex .modal-panel { animation: panelin .35s cubic-bezier(.2,.7,.2,1); }
+    @keyframes panelin { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+    .q-fade { transition: opacity .25s ease; }
+    body.modal-open { overflow: hidden; }
+
     :focus-visible { outline: 3px solid #d4912a; outline-offset: 3px; border-radius: 4px; }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
@@ -94,7 +100,7 @@
   </style>
 </head>
 
-<body class="bg-cream text-stone-700 antialiased">
+<body class="bg-cream text-stone-700 antialiased overflow-x-hidden">
   <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-navy-800 focus:text-white focus:px-4 focus:py-2 focus:rounded">Skip to content</a>
 
   <!-- Scroll progress -->
@@ -103,8 +109,8 @@
   <!-- Top bar -->
   <div class="bg-navy-900 text-navy-100 text-sm">
     <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-2 sm:px-8">
-      <p>A New York not-for-profit corporation</p>
-      <a href="#involved" class="hidden font-medium text-gold-400 link-line sm:inline">Support our mission →</a>
+      <p class="truncate">A New York not-for-profit corporation</p>
+      <a href="#donate" class="donate-btn shrink-0 font-semibold text-gold-400 link-line">Donate here →</a>
     </div>
   </div>
 
@@ -112,16 +118,16 @@
 
   <!-- NAV -->
   <header id="nav" class="sticky top-0 z-50 border-b border-transparent bg-cream/90 backdrop-blur transition-all duration-300">
-    <nav class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8" aria-label="Primary">
-      <a href="#top" class="flex items-center gap-3">
-        <svg class="h-10 w-10" viewBox="0 0 48 48" aria-hidden="true">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-8 sm:py-4" aria-label="Primary">
+      <a href="#top" class="flex min-w-0 items-center gap-3">
+        <svg class="h-9 w-9 shrink-0 sm:h-10 sm:w-10" viewBox="0 0 48 48" aria-hidden="true">
           <rect width="48" height="48" rx="10" fill="#4a2c1a"/>
           <path d="M14 30c3-6 7-9 10-9s7 3 10 9" fill="none" stroke="#d4912a" stroke-width="3" stroke-linecap="round"/>
           <circle cx="24" cy="15" r="4" fill="#fff"/>
           <path d="M11 35h26" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
         </svg>
         <span class="leading-tight">
-          <span class="block font-serif text-xl font-semibold text-navy-800">Gaining Our Dignity</span>
+          <span class="block truncate font-serif text-lg font-semibold text-navy-800 sm:text-xl">Gaining Our Dignity</span>
           <span class="block text-[11px] font-medium uppercase tracking-[0.2em] text-stone-500">Incorporated</span>
         </span>
       </a>
@@ -130,19 +136,26 @@
         <li><a href="#programs" class="link-line">Programs</a></li>
         <li><a href="#serve" class="link-line">Who We Serve</a></li>
         <li><a href="#about" class="link-line">About</a></li>
-        <li><a href="#contact" class="rounded-md bg-navy-800 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-navy-600">Get Involved</a></li>
+        <li><a href="#quotes" class="link-line">Get Inspired</a></li>
+        <li><a href="#contact" class="rounded-md border border-navy-800/25 px-5 py-2.5 font-semibold text-navy-800 transition-colors hover:border-navy-800">Get Involved</a></li>
+        <li><a href="#donate" class="donate-btn rounded-md bg-gold-500 px-5 py-2.5 font-semibold text-navy-900 shadow-sm transition-colors hover:bg-gold-400">Donate</a></li>
       </ul>
-      <button id="menu-btn" class="rounded-md p-2 text-navy-800 hover:bg-navy-50 lg:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+      <div class="flex shrink-0 items-center gap-2 lg:hidden">
+        <a href="#donate" class="donate-btn rounded-md bg-gold-500 px-3.5 py-2 text-sm font-semibold text-navy-900">Donate</a>
+      <button id="menu-btn" class="rounded-md p-2.5 text-navy-800 hover:bg-navy-50" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
         <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
+      </div>
     </nav>
-    <div id="mobile-menu" class="hidden border-t border-stone-200 bg-cream lg:hidden">
+    <div id="mobile-menu" class="hidden max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-stone-200 bg-cream lg:hidden">
       <ul class="flex flex-col px-5 py-3 text-lg font-medium text-navy-800">
         <li><a href="#mission" class="block border-b border-stone-200 py-3">Mission</a></li>
         <li><a href="#programs" class="block border-b border-stone-200 py-3">Programs</a></li>
         <li><a href="#serve" class="block border-b border-stone-200 py-3">Who We Serve</a></li>
         <li><a href="#about" class="block border-b border-stone-200 py-3">About</a></li>
+        <li><a href="#quotes" class="block border-b border-stone-200 py-3">Get Inspired</a></li>
         <li><a href="#contact" class="mt-4 block rounded-md bg-navy-800 py-3 text-center font-semibold text-white">Get Involved</a></li>
+        <li><a href="#donate" class="donate-btn mt-3 block rounded-md bg-gold-500 py-3 text-center font-semibold text-navy-900">Donate Here</a></li>
       </ul>
     </div>
   </header>
@@ -155,34 +168,43 @@
         <div class="absolute -left-20 bottom-0 h-80 w-80 rounded-full bg-gold-100 blur-3xl animate-drift [animation-delay:-8s]"></div>
       </div>
 
-      <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-12 lg:py-28">
+      <div class="relative mx-auto grid max-w-7xl items-center gap-10 px-5 py-12 sm:px-8 sm:py-20 lg:grid-cols-12 lg:gap-12 lg:py-28">
         <div class="lg:col-span-7">
-          <p class="reveal text-sm font-semibold uppercase tracking-[0.2em] text-gold-600">Community · Education · Support</p>
-          <h1 class="reveal d1 mt-5 font-serif text-4xl font-semibold leading-[1.1] text-navy-900 sm:text-5xl lg:text-6xl">
+          <p class="reveal text-xs font-semibold uppercase tracking-[0.2em] text-gold-600 sm:text-sm">Community · Education · Support</p>
+          <h1 class="reveal d1 mt-5 font-serif text-[2.1rem] font-semibold leading-[1.12] text-navy-900 sm:text-5xl lg:text-6xl">
             Building a place where every generation can grow with dignity.
           </h1>
-          <p class="reveal d2 mt-6 max-w-xl text-lg leading-relaxed text-stone-600">
+          <p class="reveal d2 mt-5 max-w-xl text-base leading-relaxed text-stone-600 sm:mt-6 sm:text-lg">
             Gaining Our Dignity, Inc. is working to establish a multi-functional community center offering recreation, education, cultural programs, counseling, and referral services for youth, families, and seniors.
           </p>
-          <div class="reveal d3 mt-9 flex flex-col gap-3 sm:flex-row">
+          <div class="reveal d3 mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:flex-wrap">
             <a href="#contact" class="group inline-flex items-center justify-center gap-2 rounded-md bg-navy-800 px-7 py-3.5 font-semibold text-white shadow-sm transition-colors hover:bg-navy-600">
               Get involved
-              <svg class="h-4 w-4 transition-transform group-hover:transtone-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6"/></svg>
+              <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6"/></svg>
             </a>
+            <a href="#donate" class="donate-btn inline-flex items-center justify-center rounded-md bg-gold-500 px-7 py-3.5 font-semibold text-navy-900 shadow-sm transition-colors hover:bg-gold-400">Donate here</a>
             <a href="#programs" class="inline-flex items-center justify-center rounded-md border border-navy-800/20 bg-white px-7 py-3.5 font-semibold text-navy-800 transition-colors hover:border-navy-800/40">Our programs</a>
           </div>
         </div>
 
         <!-- Animated line illustration: community center -->
         <div class="reveal d2 lg:col-span-5">
-          <div class="relative mx-auto max-w-md rounded-2xl border border-stone-200 bg-white p-8 shadow-xl shadow-navy-900/5">
-             <img src="./a1.jpg" alt="Gaining Our Dignity"/>
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/cqng5NLmelU?si=52KOoE0zjmrCLux7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-          
-            <div class="mt-6 grid grid-cols-3 divide-x divide-stone-200 border-t border-stone-200 pt-5 text-center">
-              <div><p class="font-serif text-lg font-semibold text-navy-800">Youth</p></div>
-              <div><p class="font-serif text-lg font-semibold text-navy-800">Families</p></div>
-              <div><p class="font-serif text-lg font-semibold text-navy-800">Seniors</p></div>
+          <div class="relative mx-auto w-full max-w-md rounded-2xl border border-stone-200 bg-white p-4 shadow-xl shadow-navy-900/5 sm:p-6 lg:max-w-none">
+            <img src="./a1.jpg" alt="Gaining Our Dignity community" class="block h-auto w-full rounded-xl object-cover" loading="eager" onerror="this.remove()" />
+            <div class="mt-4 aspect-video w-full overflow-hidden rounded-xl bg-navy-900">
+            <iframe 
+  style="width: 100%; aspect-ratio: 16 / 9; border: 0;" 
+  src="https://www.youtube.com/embed/cqng5NLmelU?si=52KOoE0zjmrCLux7&autoplay=1&mute=1" 
+  title="YouTube video player" 
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+  referrerpolicy="strict-origin-when-cross-origin" 
+  allowfullscreen>
+</iframe>   </div>
+            <a href="https://www.youtube.com/watch?v=cqng5NLmelU" class="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-terra link-line">▶ Watch on YouTube</a>
+<div class="mt-5 grid grid-cols-3 divide-x divide-stone-200 border-t border-stone-200 pt-4 text-center">
+              <div><p class="font-serif text-base font-semibold text-navy-800 sm:text-lg">Youth</p></div>
+              <div><p class="font-serif text-base font-semibold text-navy-800 sm:text-lg">Families</p></div>
+              <div><p class="font-serif text-base font-semibold text-navy-800 sm:text-lg">Seniors</p></div>
             </div>
           </div>
         </div>
@@ -192,26 +214,26 @@
     <!-- PILLARS STRIP -->
     <section aria-label="Areas of focus" class="border-y border-stone-200 bg-white">
       <ul class="mx-auto grid max-w-7xl grid-cols-2 gap-px bg-stone-200 sm:grid-cols-3 lg:grid-cols-5">
-        <li class="bg-white px-6 py-6 text-center font-medium text-navy-800"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-terra align-middle"></span>Recreation</li>
-        <li class="bg-white px-6 py-6 text-center font-medium text-navy-800"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-gold-500 align-middle"></span>Education</li>
-        <li class="bg-white px-6 py-6 text-center font-medium text-navy-800"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-forest align-middle"></span>Culture</li>
-        <li class="bg-white px-6 py-6 text-center font-medium text-navy-800"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-kred align-middle"></span>Counseling</li>
-        <li class="col-span-2 bg-white px-6 py-6 text-center font-medium text-navy-800 sm:col-span-1"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-navy-600 align-middle"></span>Referrals</li>
+        <li class="bg-white px-3 py-4 text-center text-sm font-medium text-navy-800 sm:px-6 sm:py-6 sm:text-base"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-terra align-middle"></span>Recreation</li>
+        <li class="bg-white px-3 py-4 text-center text-sm font-medium text-navy-800 sm:px-6 sm:py-6 sm:text-base"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-gold-500 align-middle"></span>Education</li>
+        <li class="bg-white px-3 py-4 text-center text-sm font-medium text-navy-800 sm:px-6 sm:py-6 sm:text-base"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-forest align-middle"></span>Culture</li>
+        <li class="bg-white px-3 py-4 text-center text-sm font-medium text-navy-800 sm:px-6 sm:py-6 sm:text-base"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-kred align-middle"></span>Counseling</li>
+        <li class="col-span-2 bg-white px-3 py-4 text-center text-sm font-medium text-navy-800 sm:px-6 sm:py-6 sm:text-base sm:col-span-1"><span class="mr-2 inline-block h-2 w-2 rounded-full bg-navy-600 align-middle"></span>Referrals</li>
       </ul>
     </section>
 
     <!-- MISSION -->
-    <section id="mission" class="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:py-32">
+    <section id="mission" class="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24 lg:py-32">
       <div class="grid gap-14 lg:grid-cols-12">
         <div class="reveal lg:col-span-5">
           <p class="text-sm font-semibold uppercase tracking-[0.2em] text-gold-600">Our Mission</p>
           <div class="rule mt-4 h-[3px] bg-gold-500"></div>
-          <h2 class="mt-6 font-serif text-3xl font-semibold leading-tight text-navy-900 sm:text-4xl">Enriching our community and improving quality of life.</h2>
+          <h2 class="mt-6 font-serif text-[1.75rem] font-semibold leading-tight text-navy-900 sm:text-4xl">Enriching our community and improving quality of life.</h2>
         </div>
-        <div class="reveal d1 space-y-5 text-lg leading-relaxed text-stone-600 lg:col-span-7">
+        <div class="reveal d1 space-y-5 text-base leading-relaxed text-stone-600 sm:text-lg lg:col-span-7">
           <p>Gaining Our Dignity, Inc. is a charitable nonprofit dedicated to community enrichment. Our purpose is to establish a community center that serves as a resource for people of every age.</p>
           <p>Through recreation, education, cultural programming, counseling, and referrals, we aim to strengthen youth, support families, and honor older adults — creating a place where every person is treated with respect and given the opportunity to thrive.</p>
-          <blockquote class="border-l-4 border-terra bg-white py-5 pl-6 pr-4 font-serif text-xl italic text-navy-800 shadow-sm">
+          <blockquote class="border-l-4 border-terra bg-white py-5 pl-6 pr-4 font-serif text-lg italic text-navy-800 shadow-sm sm:text-xl">
             A strong community starts with a place where everyone belongs.
           </blockquote>
         </div>
@@ -219,51 +241,51 @@
     </section>
 
     <!-- PROGRAMS -->
-    <section id="programs" class="bg-white py-24 lg:py-32">
+    <section id="programs" class="bg-white py-16 sm:py-24 lg:py-32">
       <div class="mx-auto max-w-7xl px-5 sm:px-8">
         <div class="reveal mx-auto max-w-2xl text-center">
           <p class="text-sm font-semibold uppercase tracking-[0.2em] text-gold-600">Planned Programs &amp; Services</p>
-          <h2 class="mt-4 font-serif text-3xl font-semibold text-navy-900 sm:text-4xl">What the center will offer</h2>
-          <p class="mt-4 text-lg text-stone-600">Comprehensive services designed to meet the needs of our community.</p>
+          <h2 class="mt-4 font-serif text-[1.75rem] font-semibold text-navy-900 sm:text-4xl">What the center will offer</h2>
+          <p class="mt-4 text-base text-stone-600 sm:text-lg">Comprehensive services designed to meet the needs of our community.</p>
         </div>
 
-        <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <article class="reveal group rounded-xl border border-stone-200 bg-cream p-8 transition-all duration-300 hover:-transtone-y-1 hover:border-navy-800/30 hover:bg-white hover:shadow-xl hover:shadow-navy-900/5">
+        <div class="mt-10 grid gap-4 sm:mt-16 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+          <article class="reveal group rounded-xl border border-stone-200 bg-cream p-6 transition-all sm:p-8 duration-300 hover:-translate-y-1 hover:border-navy-800/30 hover:bg-white hover:shadow-xl hover:shadow-navy-900/5">
             <div class="grid h-12 w-12 place-items-center rounded-lg bg-terra text-gold-100 transition-transform duration-300 group-hover:scale-110">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>
             </div>
             <h3 class="mt-6 font-serif text-xl font-semibold text-navy-900">Recreation</h3>
             <p class="mt-2 leading-relaxed text-stone-600">Organized recreational activities that promote health, teamwork, and positive connections.</p>
           </article>
-          <article class="reveal d1 group rounded-xl border border-stone-200 bg-cream p-8 transition-all duration-300 hover:-transtone-y-1 hover:border-navy-800/30 hover:bg-white hover:shadow-xl hover:shadow-navy-900/5">
+          <article class="reveal d1 group rounded-xl border border-stone-200 bg-cream p-6 transition-all sm:p-8 duration-300 hover:-translate-y-1 hover:border-navy-800/30 hover:bg-white hover:shadow-xl hover:shadow-navy-900/5">
             <div class="grid h-12 w-12 place-items-center rounded-lg bg-forest text-gold-100 transition-transform duration-300 group-hover:scale-110">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linejoin="round" d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg>
             </div>
             <h3 class="mt-6 font-serif text-xl font-semibold text-navy-900">Educational Services</h3>
             <p class="mt-2 leading-relaxed text-stone-600">Homework supervision, lectures, and seminars that support learning at every stage of life.</p>
           </article>
-          <article class="reveal d2 group rounded-xl border border-stone-200 bg-cream p-8 transition-all duration-300 hover:-transtone-y-1 hover:border-navy-800/30 hover:bg-white hover:shadow-xl hover:shadow-navy-900/5">
+          <article class="reveal d2 group rounded-xl border border-stone-200 bg-cream p-6 transition-all sm:p-8 duration-300 hover:-translate-y-1 hover:border-navy-800/30 hover:bg-white hover:shadow-xl hover:shadow-navy-900/5">
             <div class="grid h-12 w-12 place-items-center rounded-lg bg-navy-800 text-gold-100 transition-transform duration-300 group-hover:scale-110">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg>
             </div>
             <h3 class="mt-6 font-serif text-xl font-semibold text-navy-900">Cultural Programming</h3>
             <p class="mt-2 leading-relaxed text-stone-600">Programs that celebrate heritage, the arts, and the diverse traditions of our community.</p>
           </article>
-          <article class="reveal group rounded-xl border border-stone-200 bg-cream p-8 transition-all duration-300 hover:-transtone-y-1 hover:border-navy-800/30 hover:bg-white hover:shadow-xl hover:shadow-navy-900/5">
+          <article class="reveal group rounded-xl border border-stone-200 bg-cream p-6 transition-all sm:p-8 duration-300 hover:-translate-y-1 hover:border-navy-800/30 hover:bg-white hover:shadow-xl hover:shadow-navy-900/5">
             <div class="grid h-12 w-12 place-items-center rounded-lg bg-kred text-gold-100 transition-transform duration-300 group-hover:scale-110">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linejoin="round" d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>
             </div>
             <h3 class="mt-6 font-serif text-xl font-semibold text-navy-900">Counseling</h3>
             <p class="mt-2 leading-relaxed text-stone-600">Supportive guidance to help individuals and families navigate life's challenges.</p>
           </article>
-          <article class="reveal d1 group rounded-xl border border-stone-200 bg-cream p-8 transition-all duration-300 hover:-transtone-y-1 hover:border-navy-800/30 hover:bg-white hover:shadow-xl hover:shadow-navy-900/5">
+          <article class="reveal d1 group rounded-xl border border-stone-200 bg-cream p-6 transition-all sm:p-8 duration-300 hover:-translate-y-1 hover:border-navy-800/30 hover:bg-white hover:shadow-xl hover:shadow-navy-900/5">
             <div class="grid h-12 w-12 place-items-center rounded-lg bg-navy-600 text-gold-100 transition-transform duration-300 group-hover:scale-110">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10 14 21 3M21 3h-6M21 3v6M19 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5"/></svg>
             </div>
             <h3 class="mt-6 font-serif text-xl font-semibold text-navy-900">Referral Services</h3>
             <p class="mt-2 leading-relaxed text-stone-600">Connecting community members with trusted agencies and resources that meet their needs.</p>
           </article>
-          <article class="reveal d2 group rounded-xl border border-stone-200 bg-cream p-8 transition-all duration-300 hover:-transtone-y-1 hover:border-navy-800/30 hover:bg-white hover:shadow-xl hover:shadow-navy-900/5">
+          <article class="reveal d2 group rounded-xl border border-stone-200 bg-cream p-6 transition-all sm:p-8 duration-300 hover:-translate-y-1 hover:border-navy-800/30 hover:bg-white hover:shadow-xl hover:shadow-navy-900/5">
             <div class="grid h-12 w-12 place-items-center rounded-lg bg-forest text-gold-100 transition-transform duration-300 group-hover:scale-110">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-7-4.4-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 6c-2.3 4.6-9.3 9-9.3 9z"/></svg>
             </div>
@@ -275,14 +297,14 @@
     </section>
 
     <!-- WHO WE SERVE -->
-    <section id="serve" class="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:py-32">
+    <section id="serve" class="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24 lg:py-32">
       <div class="reveal max-w-2xl">
         <p class="text-sm font-semibold uppercase tracking-[0.2em] text-gold-600">Who We Serve</p>
         <div class="rule mt-4 h-[3px] bg-gold-500"></div>
-        <h2 class="mt-6 font-serif text-3xl font-semibold text-navy-900 sm:text-4xl">A resource for every stage of life</h2>
+        <h2 class="mt-6 font-serif text-[1.75rem] font-semibold text-navy-900 sm:text-4xl">A resource for every stage of life</h2>
       </div>
 
-      <div class="mt-14 grid gap-8 md:grid-cols-3">
+      <div class="mt-10 grid gap-8 sm:mt-14 md:grid-cols-3">
         <article class="reveal border-t-2 border-navy-800 pt-6">
           <p class="font-serif text-5xl font-semibold text-terra">01</p>
           <h3 class="mt-3 font-serif text-2xl font-semibold text-navy-900">Youth</h3>
@@ -302,67 +324,104 @@
     </section>
 
     <!-- GET INVOLVED (navy band) -->
-    <section id="involved" class="mudcloth relative overflow-hidden py-24 text-white lg:py-28">
-      <svg aria-hidden="true" class="pointer-events-none absolute -right-20 -top-20 h-[30rem] w-[30rem] text-navy-600 opacity-60 animate-[spin_90s_linear_infinite]" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="0.6">
+    <section id="involved" class="mudcloth relative overflow-hidden py-16 text-white sm:py-24 lg:py-28">
+      <svg aria-hidden="true" class="pointer-events-none absolute -right-20 -top-20 h-72 w-72 text-navy-600 sm:h-[30rem] sm:w-[30rem] opacity-60 animate-[spin_90s_linear_infinite]" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="0.6">
         <circle cx="100" cy="100" r="95"/><circle cx="100" cy="100" r="75"/><circle cx="100" cy="100" r="55"/>
         <path d="M100 5v190M5 100h190M33 33l134 134M167 33 33 167"/>
       </svg>
       <div class="relative mx-auto max-w-7xl px-5 sm:px-8">
         <div class="reveal max-w-2xl">
           <p class="text-sm font-semibold uppercase tracking-[0.2em] text-gold-400">Get Involved</p>
-          <h2 class="mt-4 font-serif text-3xl font-semibold sm:text-4xl">Help us bring this center to life.</h2>
+          <h2 class="mt-4 font-serif text-[1.75rem] font-semibold sm:text-4xl">Help us bring this center to life.</h2>
           <p class="mt-4 text-lg text-navy-100">Our work depends on the generosity and commitment of people who believe in our community.</p>
         </div>
-        <div class="mt-14 grid gap-6 md:grid-cols-3">
-          <div class="reveal rounded-xl border border-white/15 bg-white/5 p-8 transition-colors hover:bg-white/10">
+        <div class="mt-10 grid gap-4 sm:mt-14 sm:gap-6 md:grid-cols-3">
+          <div class="reveal rounded-xl border border-white/15 bg-white/5 p-6 transition-colors sm:p-8 hover:bg-white/10">
             <h3 class="font-serif text-2xl font-semibold">Volunteer</h3>
             <p class="mt-3 text-navy-100">Share your time and skills through tutoring, mentoring, event support, and more.</p>
             <a href="#contact" data-interest="volunteer" class="interest-link mt-6 inline-block font-semibold text-gold-400 link-line">Learn more →</a>
           </div>
-          <div class="reveal d1 rounded-xl border border-white/15 bg-white/5 p-8 transition-colors hover:bg-white/10">
+          <div class="reveal d1 rounded-xl border border-white/15 bg-white/5 p-6 transition-colors sm:p-8 hover:bg-white/10">
             <h3 class="font-serif text-2xl font-semibold">Partner</h3>
             <p class="mt-3 text-navy-100">Businesses, schools, and organizations can collaborate with us to serve our neighbors.</p>
             <a href="#contact" data-interest="partner" class="interest-link mt-6 inline-block font-semibold text-gold-400 link-line">Learn more →</a>
           </div>
-          <div class="reveal d2 rounded-xl border border-white/15 bg-white/5 p-8 transition-colors hover:bg-white/10">
+          <div class="reveal d2 rounded-xl border border-white/15 bg-white/5 p-6 transition-colors sm:p-8 hover:bg-white/10">
             <h3 class="font-serif text-2xl font-semibold">Give</h3>
             <p class="mt-3 text-navy-100">Contributions help us establish the center and launch its programs and services.</p>
-            <a href="#contact" data-interest="donate" class="interest-link mt-6 inline-block font-semibold text-gold-400 link-line">Learn more →</a>
+            <a href="#donate" class="donate-btn mt-6 inline-flex items-center justify-center rounded-md bg-gold-500 px-5 py-2.5 font-semibold text-navy-900 transition-colors hover:bg-gold-400">Donate here</a>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- QUOTES -->
+    <section id="quotes" class="bg-white py-16 sm:py-24 lg:py-32">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8">
+        <div class="reveal mx-auto max-w-2xl text-center">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-gold-600 sm:text-sm">Words That Guide Us</p>
+          <h2 class="mt-4 font-serif text-[1.75rem] font-semibold text-navy-900 sm:text-4xl">Get inspired</h2>
+          <p class="mt-4 text-base text-stone-600 sm:text-lg">The voices that remind us why dignity, education, and service matter.</p>
+        </div>
+        <div class="mt-10 grid gap-4 sm:mt-14 sm:gap-6 md:grid-cols-3">
+          <button type="button" data-q="0" class="quote-card reveal group relative overflow-hidden rounded-xl border border-stone-200 bg-cream p-6 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-navy-900/5 sm:p-8">
+            <span class="absolute inset-x-0 top-0 h-1.5 kente" aria-hidden="true"></span>
+            <span class="font-serif text-6xl leading-none text-terra" aria-hidden="true">&ldquo;</span>
+            <span class="mt-1 block font-serif text-lg italic leading-snug text-navy-900 sm:text-xl">Not everything that is faced can be changed, but nothing can be changed until it is faced.</span>
+            <span class="mt-5 block text-sm font-semibold uppercase tracking-[0.15em] text-gold-600">James Baldwin</span>
+            <span class="mt-4 block text-sm font-semibold text-terra">Read more quotes →</span>
+          </button>
+          <button type="button" data-q="2" class="quote-card reveal d1 group relative overflow-hidden rounded-xl border border-stone-200 bg-cream p-6 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-navy-900/5 sm:p-8">
+            <span class="absolute inset-x-0 top-0 h-1.5 kente" aria-hidden="true"></span>
+            <span class="font-serif text-6xl leading-none text-forest" aria-hidden="true">&ldquo;</span>
+            <span class="mt-1 block font-serif text-lg italic leading-snug text-navy-900 sm:text-xl">Life&rsquo;s most persistent and urgent question is, &lsquo;What are you doing for others?&rsquo;</span>
+            <span class="mt-5 block text-sm font-semibold uppercase tracking-[0.15em] text-gold-600">Dr. Martin Luther King Jr.</span>
+            <span class="mt-4 block text-sm font-semibold text-terra">Read more quotes →</span>
+          </button>
+          <button type="button" data-q="4" class="quote-card reveal d2 group relative overflow-hidden rounded-xl border border-stone-200 bg-cream p-6 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-navy-900/5 sm:p-8">
+            <span class="absolute inset-x-0 top-0 h-1.5 kente" aria-hidden="true"></span>
+            <span class="font-serif text-6xl leading-none text-kred" aria-hidden="true">&ldquo;</span>
+            <span class="mt-1 block font-serif text-lg italic leading-snug text-navy-900 sm:text-xl">Education is the passport to the future, for tomorrow belongs to those who prepare for it today.</span>
+            <span class="mt-5 block text-sm font-semibold uppercase tracking-[0.15em] text-gold-600">Malcolm X</span>
+            <span class="mt-4 block text-sm font-semibold text-terra">Read more quotes →</span>
+          </button>
+        </div>
+        <div class="reveal mt-10 text-center">
+          <button type="button" id="inspire-open" class="inline-flex w-full items-center justify-center gap-2 rounded-md bg-navy-800 px-7 py-3.5 font-semibold text-white transition-colors hover:bg-navy-600 sm:w-auto">✦ Get inspired</button>
+        </div>
+      </div>
+    </section>
+
     <!-- ABOUT -->
-    <section id="about" class="mx-auto max-w-4xl px-5 py-24 sm:px-8 lg:py-32">
+    <section id="about" class="mx-auto max-w-4xl px-5 py-16 sm:px-8 sm:py-24 lg:py-32">
       <div class="reveal text-center">
         <p class="text-sm font-semibold uppercase tracking-[0.2em] text-gold-600">About the Organization</p>
-        <h2 class="mt-4 font-serif text-3xl font-semibold text-navy-900 sm:text-4xl">Frequently asked questions</h2>
+        <h2 class="mt-4 font-serif text-[1.75rem] font-semibold text-navy-900 sm:text-4xl">Frequently asked questions</h2>
       </div>
       <div class="mt-12 divide-y divide-stone-200 border-y border-stone-200">
-        <details class="reveal group py-6">
-          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-lg font-semibold text-navy-900">
+        <details class="reveal group py-5 sm:py-6">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-base font-semibold text-navy-900 sm:text-lg">
             What type of organization is Gaining Our Dignity, Inc.?
             <svg class="h-5 w-5 shrink-0 text-gold-600 transition-transform duration-300 group-open:rotate-45" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>
           </summary>
           <p class="mt-4 leading-relaxed text-stone-600">Gaining Our Dignity, Inc. is a New York Type B not-for-profit corporation, organized for charitable purposes consistent with Section 501(c)(3) of the Internal Revenue Code.</p>
         </details>
-        <details class="reveal group py-6">
-          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-lg font-semibold text-navy-900">
+        <details class="reveal group py-5 sm:py-6">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-base font-semibold text-navy-900 sm:text-lg">
             Is this a religious organization?
             <svg class="h-5 w-5 shrink-0 text-gold-600 transition-transform duration-300 group-open:rotate-45" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>
           </summary>
           <p class="mt-4 leading-relaxed text-stone-600">No. Gaining Our Dignity, Inc. is not a religious organization.</p>
         </details>
-        <details class="reveal group py-6">
-          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-lg font-semibold text-navy-900">
+        <details class="reveal group py-5 sm:py-6">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-base font-semibold text-navy-900 sm:text-lg">
             Will the center operate as a school?
             <svg class="h-5 w-5 shrink-0 text-gold-600 transition-transform duration-300 group-open:rotate-45" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>
           </summary>
           <p class="mt-4 leading-relaxed text-stone-600">No. The center will provide educational services such as homework supervision, lectures, and seminars, but it will not operate as a school or degree-granting institution.</p>
         </details>
-        <details class="reveal group py-6">
-          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-lg font-semibold text-navy-900">
+        <details class="reveal group py-5 sm:py-6">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-base font-semibold text-navy-900 sm:text-lg">
             Who will the center serve?
             <svg class="h-5 w-5 shrink-0 text-gold-600 transition-transform duration-300 group-open:rotate-45" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>
           </summary>
@@ -372,29 +431,29 @@
     </section>
 
     <!-- CONTACT -->
-    <section id="contact" class="bg-white py-24 lg:py-32">
-      <div class="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-12">
+    <section id="contact" class="bg-white py-16 sm:py-24 lg:py-32">
+      <div class="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-12 lg:gap-14">
         <div class="reveal lg:col-span-5">
           <p class="text-sm font-semibold uppercase tracking-[0.2em] text-gold-600">Contact</p>
           <div class="rule mt-4 h-[3px] bg-gold-500"></div>
-          <h2 class="mt-6 font-serif text-3xl font-semibold text-navy-900 sm:text-4xl">We'd like to hear from you.</h2>
-          <p class="mt-5 text-lg leading-relaxed text-stone-600">Whether you'd like to volunteer, partner, contribute, or learn more about our plans, please reach out.</p>
+          <h2 class="mt-6 font-serif text-[1.75rem] font-semibold text-navy-900 sm:text-4xl">We'd like to hear from you.</h2>
+          <p class="mt-5 text-base leading-relaxed text-stone-600 sm:text-lg">Whether you'd like to volunteer, partner, contribute, or learn more about our plans, please reach out.</p>
         </div>
 
-        <form id="contact-form" class="reveal d1 rounded-xl border border-stone-200 bg-cream p-8 sm:p-10 lg:col-span-7" novalidate>
+        <form id="contact-form" class="reveal d1 rounded-xl border border-stone-200 bg-cream p-5 sm:p-10 lg:col-span-7" novalidate>
           <div class="grid gap-5 sm:grid-cols-2">
             <div>
               <label for="name" class="mb-1.5 block text-sm font-semibold text-navy-900">Full name</label>
-              <input id="name" name="name" type="text" required autocomplete="name" class="w-full rounded-md border border-stone-300 bg-white px-4 py-3 outline-none transition focus:border-navy-800 focus:ring-2 focus:ring-navy-800/15" />
+              <input id="name" name="name" type="text" required autocomplete="name" class="w-full rounded-md border border-stone-300 bg-white px-4 py-3 text-base outline-none transition focus:border-navy-800 focus:ring-2 focus:ring-navy-800/15" />
             </div>
             <div>
               <label for="email" class="mb-1.5 block text-sm font-semibold text-navy-900">Email</label>
-              <input id="email" name="email" type="email" required autocomplete="email" class="w-full rounded-md border border-stone-300 bg-white px-4 py-3 outline-none transition focus:border-navy-800 focus:ring-2 focus:ring-navy-800/15" />
+              <input id="email" name="email" type="email" required autocomplete="email" class="w-full rounded-md border border-stone-300 bg-white px-4 py-3 text-base outline-none transition focus:border-navy-800 focus:ring-2 focus:ring-navy-800/15" />
             </div>
           </div>
           <div class="mt-5">
             <label for="interest" class="mb-1.5 block text-sm font-semibold text-navy-900">I'm interested in</label>
-            <select id="interest" name="interest" class="w-full rounded-md border border-stone-300 bg-white px-4 py-3 outline-none transition focus:border-navy-800 focus:ring-2 focus:ring-navy-800/15">
+            <select id="interest" name="interest" class="w-full rounded-md border border-stone-300 bg-white px-4 py-3 text-base outline-none transition focus:border-navy-800 focus:ring-2 focus:ring-navy-800/15">
               <option value="general">General information</option>
               <option value="volunteer">Volunteering</option>
               <option value="partner">Partnership</option>
@@ -404,7 +463,7 @@
           </div>
           <div class="mt-5">
             <label for="msg" class="mb-1.5 block text-sm font-semibold text-navy-900">Message</label>
-            <textarea id="msg" name="msg" rows="5" class="w-full resize-none rounded-md border border-stone-300 bg-white px-4 py-3 outline-none transition focus:border-navy-800 focus:ring-2 focus:ring-navy-800/15"></textarea>
+            <textarea id="msg" name="msg" rows="5" class="w-full resize-none rounded-md border border-stone-300 bg-white px-4 py-3 text-base outline-none transition focus:border-navy-800 focus:ring-2 focus:ring-navy-800/15"></textarea>
           </div>
           <p id="form-error" class="mt-4 hidden text-sm font-medium text-red-700" role="alert"></p>
           <button type="submit" class="mt-6 w-full rounded-md bg-navy-800 py-3.5 font-semibold text-white transition-colors hover:bg-navy-600 sm:w-auto sm:px-10">Send message</button>
@@ -414,9 +473,62 @@
     </section>
   </main>
 
+  <!-- Floating "Get Inspired" button -->
+  <button type="button" id="inspire-fab" class="fixed bottom-4 left-4 z-40 inline-flex items-center gap-2 rounded-full bg-navy-800 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-navy-900/30 transition-transform hover:scale-105 sm:bottom-6 sm:left-6" style="margin-bottom: env(safe-area-inset-bottom);">
+    <span class="text-gold-400" aria-hidden="true">✦</span> Get Inspired
+  </button>
+  <a href="#donate" class="donate-btn fixed bottom-4 right-4 z-40 inline-flex items-center gap-2 rounded-full bg-gold-500 px-4 py-3 text-sm font-semibold text-navy-900 shadow-lg shadow-navy-900/30 transition-transform hover:scale-105 sm:bottom-6 sm:right-6" style="margin-bottom: env(safe-area-inset-bottom);">
+    <span aria-hidden="true">♥</span> Donate
+  </a>
+
+  <!-- Inspiration modal -->
+  <div id="inspire-modal" class="modal fixed inset-0 z-[70] hidden items-end justify-center bg-navy-900/70 p-0 backdrop-blur-sm sm:items-center sm:p-6" role="dialog" aria-modal="true" aria-labelledby="inspire-title">
+    <div class="modal-panel relative w-full max-w-lg overflow-hidden rounded-t-2xl bg-cream shadow-2xl sm:rounded-2xl">
+      <div class="kente h-2" aria-hidden="true"></div>
+      <button type="button" class="modal-close absolute right-3 top-4 grid h-10 w-10 place-items-center rounded-full text-navy-800 hover:bg-navy-50" aria-label="Close">
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <div class="px-6 pb-7 pt-8 sm:px-9 sm:pb-9">
+        <p id="inspire-title" class="text-xs font-semibold uppercase tracking-[0.2em] text-gold-600">Get Inspired</p>
+        <figure class="mt-4 min-h-[11rem]">
+          <span class="font-serif text-6xl leading-none text-terra" aria-hidden="true">&ldquo;</span>
+          <blockquote id="q-text" class="q-fade font-serif text-xl italic leading-snug text-navy-900 sm:text-2xl" aria-live="polite"></blockquote>
+          <figcaption id="q-author" class="q-fade mt-4 text-sm font-semibold uppercase tracking-[0.15em] text-gold-600"></figcaption>
+        </figure>
+        <div class="mt-6 flex items-center justify-between gap-3">
+          <p id="q-count" class="text-sm text-stone-500"></p>
+          <div class="flex gap-2">
+            <button type="button" id="q-prev" class="grid h-11 w-11 place-items-center rounded-md border border-navy-800/20 text-navy-800 hover:border-navy-800" aria-label="Previous quote">←</button>
+            <button type="button" id="q-next" class="rounded-md bg-navy-800 px-5 py-2.5 font-semibold text-white hover:bg-navy-600">Next quote →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Donate modal -->
+  <div id="donate-modal" class="modal fixed inset-0 z-[70] hidden items-end justify-center bg-navy-900/70 p-0 backdrop-blur-sm sm:items-center sm:p-6" role="dialog" aria-modal="true" aria-labelledby="donate-title">
+    <div class="modal-panel relative w-full max-w-lg overflow-hidden rounded-t-2xl bg-cream shadow-2xl sm:rounded-2xl">
+      <div class="kente h-2" aria-hidden="true"></div>
+      <button type="button" class="modal-close absolute right-3 top-4 grid h-10 w-10 place-items-center rounded-full text-navy-800 hover:bg-navy-50" aria-label="Close">
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <div class="px-6 pb-7 pt-8 sm:px-9 sm:pb-9">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-gold-600">Donate</p>
+        <h2 id="donate-title" class="mt-3 font-serif text-2xl font-semibold text-navy-900 sm:text-3xl">Help us build the center.</h2>
+        <p class="mt-3 text-base leading-relaxed text-stone-600">Your gift helps Gaining Our Dignity, Inc. establish a community center with recreation, education, cultural programs, counseling, and referrals for youth, families, and seniors.</p>
+        <div class="mt-6 grid gap-3">
+          <a id="donate-online" href="#" class="hidden items-center justify-center rounded-md bg-gold-500 px-6 py-3.5 font-semibold text-navy-900 hover:bg-gold-400">Donate online →</a>
+          <p id="donate-pending" class="rounded-md border border-gold-400/50 bg-gold-100/60 p-4 text-sm text-navy-800">Online giving is coming soon. In the meantime, send us a message and we'll share how you can give.</p>
+          <a href="#contact" id="donate-contact" class="inline-flex items-center justify-center rounded-md bg-navy-800 px-6 py-3.5 font-semibold text-white hover:bg-navy-600">Contact us about giving</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="kente h-3" aria-hidden="true"></div>
   <footer class="bg-navy-900 text-navy-100">
-    <div class="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-8 md:grid-cols-3">
+    <div class="mx-auto grid max-w-7xl gap-8 px-5 py-12 sm:grid-cols-2 sm:px-8 sm:py-14 md:grid-cols-3">
       <div>
         <p class="font-serif text-xl font-semibold text-white">Gaining Our Dignity, Inc.</p>
         <p class="mt-3 text-sm leading-relaxed">A New York not-for-profit corporation dedicated to community enrichment for youth, families, and seniors.</p>
@@ -436,11 +548,12 @@
           <li><a href="#contact" class="link-line">Volunteer</a></li>
           <li><a href="#contact" class="link-line">Partner with us</a></li>
           <li><a href="#contact" class="link-line">Contact us</a></li>
+          <li><a href="#donate" class="donate-btn font-semibold text-gold-400 link-line">Donate here</a></li>
         </ul>
       </div>
     </div>
     <div class="border-t border-white/10">
-      <p class="mx-auto max-w-7xl px-5 py-6 text-xs text-navy-100/70 sm:px-8">© <span id="year"></span> Gaining Our Dignity, Inc. All rights reserved.</p>
+      <p class="mx-auto max-w-7xl px-5 pb-24 pt-6 text-xs text-navy-100/70 sm:px-8 sm:pb-6">© <span id="year"></span> Gaining Our Dignity, Inc. All rights reserved.</p>
     </div>
   </footer>
 
@@ -477,7 +590,8 @@
       // Hero line drawing
       const paths = document.querySelectorAll('#hero-art .draw-path');
       const people = document.querySelector('#hero-art .people');
-      if (reduceMotion) { people.setAttribute('opacity', '1'); }
+      if (!people) { /* no line drawing on this version of the page */ }
+      else if (reduceMotion) { people.setAttribute('opacity', '1'); }
       else {
         paths.forEach((p, i) => {
           p.style.animation = `draw 2.2s ease forwards ${0.3 + i * 0.35}s`;
@@ -485,6 +599,84 @@
         people.style.transition = 'opacity 1s ease';
         setTimeout(() => people.setAttribute('opacity', '1'), 2400);
       }
+
+
+      // ---------- Modals ----------
+      let lastFocus = null;
+      const openModal = m => {
+        lastFocus = document.activeElement;
+        m.classList.remove('hidden'); m.classList.add('flex');
+        document.body.classList.add('modal-open');
+        (m.querySelector('.modal-close') || m).focus();
+      };
+      const closeModal = m => {
+        m.classList.add('hidden'); m.classList.remove('flex');
+        if (!document.querySelector('.modal.flex')) document.body.classList.remove('modal-open');
+        if (lastFocus) lastFocus.focus();
+      };
+      document.querySelectorAll('.modal').forEach(m => {
+        m.addEventListener('click', e => { if (e.target === m || e.target.closest('.modal-close')) closeModal(m); });
+      });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') document.querySelectorAll('.modal.flex').forEach(closeModal);
+      });
+
+      // ---------- Get Inspired quotes ----------
+      const QUOTES = [
+        { t: 'Not everything that is faced can be changed, but nothing can be changed until it is faced.', a: 'James Baldwin' },
+        { t: 'Children have never been very good at listening to their elders, but they have never failed to imitate them.', a: 'James Baldwin' },
+        { t: 'Life\u2019s most persistent and urgent question is, \u2018What are you doing for others?\u2019', a: 'Dr. Martin Luther King Jr.' },
+        { t: 'Darkness cannot drive out darkness; only light can do that. Hate cannot drive out hate; only love can do that.', a: 'Dr. Martin Luther King Jr.' },
+        { t: 'Education is the passport to the future, for tomorrow belongs to those who prepare for it today.', a: 'Malcolm X' },
+        { t: 'We declare our right on this earth to be a human being, to be respected as a human being.', a: 'Malcolm X' },
+      ];
+      const inspire = document.getElementById('inspire-modal');
+      const qText = document.getElementById('q-text'), qAuthor = document.getElementById('q-author'), qCount = document.getElementById('q-count');
+      let qi = 0;
+      const showQuote = i => {
+        qi = (i + QUOTES.length) % QUOTES.length;
+        qText.style.opacity = qAuthor.style.opacity = 0;
+        setTimeout(() => {
+          qText.textContent = QUOTES[qi].t;
+          qAuthor.textContent = '\u2014 ' + QUOTES[qi].a;
+          qCount.textContent = (qi + 1) + ' of ' + QUOTES.length;
+          qText.style.opacity = qAuthor.style.opacity = 1;
+        }, reduceMotion ? 0 : 200);
+      };
+      const openInspire = i => { showQuote(i); openModal(inspire); };
+      document.getElementById('q-next').addEventListener('click', () => showQuote(qi + 1));
+      document.getElementById('q-prev').addEventListener('click', () => showQuote(qi - 1));
+      document.getElementById('inspire-open').addEventListener('click', () => openInspire(Math.floor(Math.random() * QUOTES.length)));
+      document.getElementById('inspire-fab').addEventListener('click', () => openInspire(Math.floor(Math.random() * QUOTES.length)));
+      document.querySelectorAll('.quote-card').forEach(c => c.addEventListener('click', () => openInspire(+c.dataset.q)));
+      // swipe left/right on phones
+      let sx = null;
+      inspire.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+      inspire.addEventListener('touchend', e => {
+        if (sx === null) return;
+        const dx = e.changedTouches[0].clientX - sx;
+        if (Math.abs(dx) > 50) showQuote(qi + (dx < 0 ? 1 : -1));
+        sx = null;
+      });
+
+      // ---------- Donate ----------
+      // Paste your online giving link here (PayPal, Givebutter, Zeffy, etc.) and the button goes straight to it.
+      const DONATE_URL = '';
+      const donateModal = document.getElementById('donate-modal');
+      if (DONATE_URL) {
+        const online = document.getElementById('donate-online');
+        online.href = DONATE_URL; online.classList.remove('hidden'); online.classList.add('inline-flex');
+        document.getElementById('donate-pending').classList.add('hidden');
+      }
+      document.querySelectorAll('.donate-btn').forEach(b => b.addEventListener('click', e => {
+        e.preventDefault();
+        menu.classList.add('hidden'); btn.setAttribute('aria-expanded', 'false');
+        openModal(donateModal);
+      }));
+      document.getElementById('donate-contact').addEventListener('click', () => {
+        closeModal(donateModal);
+        document.getElementById('contact-form').interest.value = 'donate';
+      });
 
       // Involvement links preselect the form
       const form = document.getElementById('contact-form');
